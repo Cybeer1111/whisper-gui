@@ -1,4 +1,20 @@
 {
+	"file_transcription_progress":
+	{
+		"en": "File transcription progress"
+	},
+	"current_transcription_filename":
+	{
+		"en": "Current file"
+	},
+	"load_root_label":
+	{
+		"en": "Load from directory"
+	},
+	"overall_transcription_progress":
+	{
+		"en": "Overall transcription progress"
+	},
 	"whisper_released": {
 		"en": "Whisper model released from memory",
 		"es": "Modelo Whisper liberado de la memoria",
