@@ -167,6 +167,13 @@ def load_and_save_audio(
 	
 	return audio
 
+
+def load_audio(
+		audio_path: str,
+) -> tuple[int, np.ndarray]:
+	print("Loading audio...")
+	return whisperx.load_audio(audio_path)
+
 def float_to_time_str(
 		time_float: float
 ) -> str:

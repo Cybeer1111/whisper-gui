@@ -7,3 +7,4 @@ configs/config.json
 *test.py
 ruff.toml
 .fuse_hidden*
+.idea

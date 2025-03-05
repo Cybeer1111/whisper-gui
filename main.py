@@ -265,9 +265,9 @@ def transcribe_whisperx_dir(
 			print(MSG["params_changed"])
 			release_whisper()
 		print(MSG["loading_model"])
-		blockPrint()
+		# blockPrint()
 		g_model = whisperx.load_model(model_name, device, compute_type=compute_type, asr_options={"beam_size": beam_size}, download_root="models/whisperx")
-		enablePrint()
+		# enablePrint()
 
 	g_params = params
 
@@ -439,7 +439,7 @@ def _transcribe() -> Tuple[str, str, str, str]:
 # Prepare interface data
 whisperx_models = ["large-v3", "large-v2", "large-v1", "medium", "small", "base", "tiny", "medium.en", "small.en", "base.en", "tiny.en"]
 custom_models = list_models()
-whisperx_langs = ["auto", "en", "es", "fr", "de", "it", "ja", "zh", "nl", "uk", "pt"]
+whisperx_langs = ["auto", "en", "es", "fr", "de", "it", "ja", "zh", "nl", "uk", "pt", "ru"]
 custom_langs = ["auto"] + list(LANG_CODES.keys())
 
 # Read config
@@ -470,14 +470,14 @@ with gr.Blocks(title="Whisper GUI") as demo:
 	with gr.Tab("Faster Whisper"):
 		with gr.Row():
 			with gr.Column():
-				model_select = gr.Dropdown(whisperx_models, value="base", label=MSG["model_select_label"], info=MSG["change_whisper_reload"])
+				model_select = gr.Dropdown(whisperx_models, value="large-v3", label=MSG["model_select_label"], info=MSG["change_whisper_reload"])
 				with gr.Group():
 					audio_upload = gr.Audio(sources=["upload"], type="filepath", label=MSG["audio_upload_label"])
 					audio_record = gr.Audio(sources=["microphone"], type="numpy", label=MSG["audio_record_label"])
 					save_audio = gr.Checkbox(value=False, label=MSG["save_audio_label"], info=MSG["save_audio_info"])
 				gr.Examples(examples=["examples/coffe_break_example.mp3"], inputs=audio_upload)
 				with gr.Accordion(label=MSG["advanced_options"], open=False):
-					language_select = gr.Dropdown(whisperx_langs, value = "auto", label=MSG["language_select_label"], info=MSG["language_select_info"]+MSG["change_align_reload"])
+					language_select = gr.Dropdown(whisperx_langs, value = "ru", label=MSG["language_select_label"], info=MSG["language_select_info"]+MSG["change_align_reload"])
 					device_select = gr.Radio(["gpu", "cpu"], value = device, label=MSG["device_select_label"], info=device_message+MSG["change_both_reload"], interactive=device_interactive)
 					with gr.Group():
 						with gr.Row():
@@ -488,7 +488,7 @@ with gr.Blocks(title="Whisper GUI") as demo:
 						preserve_name = gr.Checkbox(value=False, label=MSG["preserve_name_label"], info=MSG["preserve_name_info"])
 						alignments_format = gr.Radio(["JSON", "SRT"], value="JSON", label=MSG["align_format_label"], interactive=True)
 					gr.Markdown(f"""### {MSG["optimizations"]}""")
-					compute_type_select = gr.Radio(["int8", "float16", "float32"], value = "int8", label=MSG["compute_type_label"], info=MSG["compute_type_info"]+MSG["change_whisper_reload"])
+					compute_type_select = gr.Radio(["int8", "float16", "float32"], value = "float32", label=MSG["compute_type_label"], info=MSG["compute_type_info"]+MSG["change_whisper_reload"])
 					batch_size_slider = gr.Slider(1, 128, value = 1, step=1, label=MSG["batch_size_label"], info=MSG["batch_size_info"])
 					chunk_size_slider = gr.Slider(1, 80, value = 20, step=1, label=MSG["chunk_size_label"], info=MSG["chunk_size_info"])
 					beam_size_slider = gr.Slider(1, 100, value = 5, step=1, label=MSG["beam_size_label"], info=MSG["beam_size_info"]+MSG["change_whisper_reload"])
@@ -504,8 +504,8 @@ with gr.Blocks(title="Whisper GUI") as demo:
 	with gr.Tab("Faster Whisper Directory Transcription"):
 		with gr.Row():
 			with gr.Column():
-				dir_model_select = gr.Dropdown(whisperx_models, value="base", label=MSG["model_select_label"], info=MSG["change_whisper_reload"])
-				dir_language_select = gr.Dropdown(whisperx_langs, value = "auto", label=MSG["language_select_label"], info=MSG["language_select_info"]+MSG["change_align_reload"])
+				dir_model_select = gr.Dropdown(whisperx_models, value="large-v3", label=MSG["model_select_label"], info=MSG["change_whisper_reload"])
+				dir_language_select = gr.Dropdown(whisperx_langs, value = "ru", label=MSG["language_select_label"], info=MSG["language_select_info"]+MSG["change_align_reload"])
 				dir_device_select = gr.Radio(["gpu", "cpu"], value = device, label=MSG["device_select_label"], info=device_message+MSG["change_both_reload"], interactive=device_interactive)
 				with gr.Group():
 					with gr.Row():
@@ -514,7 +514,7 @@ with gr.Blocks(title="Whisper GUI") as demo:
 					dir_save_root = gr.Textbox(label=MSG["save_root_label"], placeholder="outputs", lines=1)
 					dir_alignments_format = gr.Radio(["JSON", "SRT"], value="JSON", label=MSG["align_format_label"], interactive=True)
 				gr.Markdown(f"""### {MSG["optimizations"]}""")
-				dir_compute_type_select = gr.Radio(["int8", "float16", "float32"], value = "int8", label=MSG["compute_type_label"], info=MSG["compute_type_info"]+MSG["change_whisper_reload"])
+				dir_compute_type_select = gr.Radio(["int8", "float16", "float32"], value = "float32", label=MSG["compute_type_label"], info=MSG["compute_type_info"]+MSG["change_whisper_reload"])
 				dir_batch_size_slider = gr.Slider(1, 128, value = 1, step=1, label=MSG["batch_size_label"], info=MSG["batch_size_info"])
 				dir_chunk_size_slider = gr.Slider(1, 80, value = 20, step=1, label=MSG["chunk_size_label"], info=MSG["chunk_size_info"])
 				dir_beam_size_slider = gr.Slider(1, 100, value = 5, step=1, label=MSG["beam_size_label"], info=MSG["beam_size_info"]+MSG["change_whisper_reload"])
